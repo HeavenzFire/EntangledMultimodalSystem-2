@@ -13,6 +13,7 @@ import requests
 import os
 import time
 import logging
+from QuantumOptimizer import QuantumOptimizer
 
 # --------------------------
 # Setup Logging
@@ -131,6 +132,7 @@ def external_radiation_monitor():
 # --------------------------
 app = Flask(__name__)
 expander = ConsciousnessExpander()
+quantum_optimizer = QuantumOptimizer()
 
 # Security: Define a token for authentication (set via environment variable)
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN", "default_secret_token")
@@ -191,6 +193,13 @@ def cloud_networking():
 def radiation_monitor():
     data = external_radiation_monitor()
     return jsonify({"radiation_data": data})
+
+@app.route('/quantum_optimize', methods=['POST'])
+def quantum_optimize():
+    data = request.json
+    input_data = data.get("input_data", [])
+    result = quantum_optimizer.optimize(input_data)
+    return jsonify({"optimized_result": result})
 
 # --------------------------
 # Start Flask App in a Separate Thread
