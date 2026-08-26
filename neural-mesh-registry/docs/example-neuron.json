@@ -1,0 +1,15 @@
+{
+  "id": "example-neuron-1",
+  "version": "1.0.0",
+  "type": "service",
+  "domain": "orchestration",
+  "entrypoint": "http://localhost:7001/api",
+  "capabilities": ["route", "compose", "analyze"],
+  "dependencies": ["iben-genesis"],
+  "metadata": {
+    "author": "Your Name",
+    "mesh_branch": "mesh-sync",
+    "repository": "https://github.com/your-org/your-repo",
+    "documentation": "https://docs.example.com"
+  }
+}
