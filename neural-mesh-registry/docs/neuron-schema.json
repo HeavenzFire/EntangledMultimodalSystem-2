@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Neuron Manifest Schema",
+  "description": "Specification for neuron.json files in the neural mesh registry",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the repository/neuron",
+      "minLength": 1,
+      "examples": ["iben-genesis", "entangled-multimodal-system-3"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the service/API",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$",
+      "examples": ["1.0.0", "0.3.1-beta"]
+    },
+    "domain": {
+      "type": "string",
+      "description": "Functional domain",
+      "enum": ["orchestration", "generation", "storage", "analysis", "execution", "evaluation", "routing"],
+      "examples": ["orchestration", "generation"]
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of neuron",
+      "enum": ["service", "library", "tool", "database"],
+      "default": "service"
+    },
+    "entrypoint": {
+      "type": "string",
+      "format": "uri",
+      "description": "Base URI for HTTP/gRPC communication",
+      "examples": ["http://localhost:7001/api", "https://api.example.com/v1"]
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Exposed action verbs or operational functions",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "examples": [["route", "compose", "analyze"], ["generate", "evaluate"]]
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Required upstream or downstream neuron IDs",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "examples": [["iben-genesis"], ["orchestrator-core", "data-processor"]]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Author or maintainer"
+        },
+        "mesh_branch": {
+          "type": "string",
+          "description": "Git branch for mesh synchronization",
+          "default": "mesh-sync"
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "Source code repository URL"
+        },
+        "documentation": {
+          "type": "string",
+          "format": "uri",
+          "description": "Documentation URL"
+        }
+      }
+    }
+  },
+  "required": ["id", "version", "domain", "entrypoint", "capabilities"],
+  "additionalProperties": false
+}
