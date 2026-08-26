@@ -2,7 +2,6 @@
   "name": "neural-mesh-registry",
   "version": "1.0.0",
   "description": "Core registry router for neural mesh architecture with 256+ repository nodes",
-  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
