@@ -1,16 +1,67 @@
-```gitignore
+```python
 # Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py~
+*.py.class
+*.py.backup
+*.swp
+*.swo
 
-# Logs and temp files
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.ENV/
+
+# Dependencies
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
 *.tmp
+*.bak
+*.swp
+*.swo
 
-# Environment
+# Environment variables
 .env
+.venv.bak
+.env~
 .env.local
-*.env.*
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Icon?
 ```
+
+Wait, I need to reconsider. The only modified file is `syntropic_monitor.py` which appears to be a source code file. There are no build artifacts, dependency directories, or other files that need to be ignored in the provided change list. The current .gitignore doesn't show any existing rules to preserve.
+
+Actually, since only a Python source file was modified and there are no artifacts or temporary files in the change list, no additional ignores are needed.
+
+(empty)
