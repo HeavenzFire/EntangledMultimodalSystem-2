@@ -11,6 +11,7 @@ const logger = require('./utils/logger');
 const neuronsRouter = require('./routes/neurons');
 const pathwaysRouter = require('./routes/pathways');
 const authRouter = require('./routes/auth');
+const swarmsRouter = require('./routes/swarms');
 
 // Create Express app
 const app = express();
@@ -78,6 +79,7 @@ app.get('/health', (req, res) => {
 app.use('/api/neurons', neuronsRouter);
 app.use('/api/pathways', pathwaysRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/swarms', swarmsRouter);
 
 // Metrics endpoint (for Prometheus)
 app.get('/metrics', async (req, res) => {
