@@ -23,7 +23,8 @@ venv/
 dist/
 build/
 target/
-.gradle/
+*.jar
+*.war
 
 # Python specific
 *.pyc
@@ -32,11 +33,6 @@ __pycache__/
 *.pyd
 .Python
 *.so
-.Python
-*.egg-info/
-.eggs/
-.mypy_cache/
-.pytest_cache/
 .coverage
 coverage/
 htmlcov/
@@ -80,4 +76,20 @@ Thumbs.db
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+
+# Testing
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
+
+# Gradle
+.gradle/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*~
 ```
