@@ -1,0 +1,9 @@
+[project]
+name = "heavenzfire-quantum-engine"
+version = "0.1.0"
+description = "Bounded pure-Python state-vector simulator for HeavenzFire experiments"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"
