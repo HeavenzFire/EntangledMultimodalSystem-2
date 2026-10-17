@@ -19,3 +19,5 @@ jobs:
           node-version: "22"
       - name: Test deterministic pixel-agent swarm
         run: node swarm-core/mycelium/test-intelligent-pixel-mesh.js
+      - name: Test live-field task router
+        run: node swarm-core/mycelium/test-task-router.js
