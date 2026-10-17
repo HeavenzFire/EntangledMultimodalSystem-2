@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HeavenzFire · Intelligent Pixel Mycelium</title>
+<style>
+:root{color-scheme:dark;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#07110f;color:#d8f5e9}
+*{box-sizing:border-box}body{margin:0;padding:24px;background:radial-gradient(ellipse at top,#16352b,#07110f 65%)}
+main{max-width:1200px;margin:auto}.head{display:flex;gap:20px;align-items:end;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:clamp(1.4rem,3vw,2.5rem);letter-spacing:-.04em;margin:0 0 8px}p{color:#a6c5b8;max-width:68ch;line-height:1.55}
+.panel{border:1px solid #315a4c;background:#091a16cc;border-radius:14px;padding:16px;margin-top:16px}
+canvas{display:block;width:100%;image-rendering:pixelated;aspect-ratio:8/5;border-radius:8px;background:#06100d}
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.controls label{display:flex;align-items:center;gap:8px;color:#b9d7cb}
+button{background:#a5f3cf;color:#062016;border:0;border-radius:8px;padding:10px 14px;font-weight:800;cursor:pointer}button.secondary{background:#18372d;color:#d8f5e9;border:1px solid #3e7660}
+.stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:12px}.stat{min-width:100px}.stat small{display:block;color:#7fa997}.stat strong{font-size:1.4rem}.legend{font-size:.82rem;color:#a6c5b8}
+</style>
+</head>
+<body><main>
+<div class="head"><div><h1>INTELLIGENT PIXEL MYCELIUM</h1><p>A decentralized growth simulation: each pixel follows local rules, shares nutrient signals, competes for space, and prunes starving leaf branches. No central path planner controls individual pixels.</p></div><div class="legend">LOCAL RULES · SIGNAL DIFFUSION · GROWTH · PRUNING</div></div>
+<section class="panel">
+<canvas id="field" width="640" height="400" aria-label="Animated mycelium pixel swarm"></canvas>
+<div class="stats"><div class="stat"><small>SIMULATION TICK</small><strong id="tick">0</strong></div><div class="stat"><small>ACTIVE PIXELS</small><strong id="agents">1</strong></div><div class="stat"><small>NUTRIENT NODES</small><strong id="food">0</strong></div><div class="stat"><small>OCCUPANCY</small><strong id="occupancy">0%</strong></div></div>
+</section>
+<section class="panel controls">
+<button id="toggle">Pause</button><button class="secondary" id="step">Step once</button><button class="secondary" id="reset">Reset seed</button>
+<label>Speed <input id="speed" type="range" min="1" max="12" value="4"></label>
+<label>Growth cap <input id="cap" type="range" min="8" max="45" value="38"></label>
+</section>
+<p class="legend">Research prototype, not a deployed multi-machine swarm. This browser demo simulates many cooperating pixel-agents locally; it does not yet connect to remote workers or invoke AI models.</p>
+</main>
+<script src="intelligent-pixel-mesh.js"></script>
+<script>
+(() => {
+ const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
+ const tickEl=document.getElementById('tick'),agentsEl=document.getElementById('agents'),foodEl=document.getElementById('food'),occupancyEl=document.getElementById('occupancy');
+ let mesh,paused=false,frame=0,seed=369;
+ function reset(){mesh=new HeavenzFireMycelium.IntelligentPixelMesh({width:64,height:40,maxAgents:Math.floor(64*40*Number(document.getElementById('cap').value)/100),seed:seed++});draw();}
+ function draw(){
+  const s=mesh.snapshot(),cw=canvas.width/s.width,ch=canvas.height/s.height;
+  ctx.fillStyle='#06100d';ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(const f of s.food){const c=s.cells[f];ctx.fillStyle='#f5c76b';ctx.fillRect(c.x*cw,c.y*ch,cw,ch);}
+  for(const c of s.cells){if(c.occupied){const light=Math.min(90,28+c.energy*25+c.trail*35);ctx.fillStyle='hsl('+(145-Math.min(35,c.age*.15))+',65%,'+light+'%)';ctx.fillRect(c.x*cw,c.y*ch,Math.max(1,cw-1),Math.max(1,ch-1));}else if(c.signal>.12){ctx.fillStyle='rgba(53,177,139,'+(c.signal*.24)+')';ctx.fillRect(c.x*cw,c.y*ch,cw,ch);}}
+  tickEl.textContent=s.tick;agentsEl.textContent=s.agents;foodEl.textContent=s.food.length;occupancyEl.textContent=(100*s.agents/(s.width*s.height)).toFixed(1)+'%';
+ }
+ function animate(){if(!paused){for(let i=0;i<Number(document.getElementById('speed').value);i++)mesh.step();draw();}requestAnimationFrame(animate);}
+ document.getElementById('toggle').onclick=()=>{paused=!paused;document.getElementById('toggle').textContent=paused?'Resume':'Pause';};
+ document.getElementById('step').onclick=()=>{paused=true;document.getElementById('toggle').textContent='Resume';mesh.step();draw();};
+ document.getElementById('reset').onclick=reset;
+ document.getElementById('cap').onchange=reset;
+ reset();animate();
+})();
+</script></body></html>
