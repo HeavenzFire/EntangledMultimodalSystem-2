@@ -1,0 +1,21 @@
+name: Mycelium Swarm Tests
+
+on:
+  push:
+    branches:
+      - "feat/heavenzfire-quantum-state-engine-v0.1"
+  pull_request:
+    paths:
+      - "swarm-core/mycelium/**"
+      - ".github/workflows/mycelium-swarm-tests.yml"
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test deterministic pixel-agent swarm
+        run: node swarm-core/mycelium/test-intelligent-pixel-mesh.js
